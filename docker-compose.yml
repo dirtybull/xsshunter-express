@@ -8,9 +8,10 @@ services:
       # the IP of the server running this service. 
       # SSL will automatically be set up and
       #  renewed with LetsEncrypt.
-      - HOSTNAME=your.host.name
-      # [REQUIRED] Email for SSL
-      - SSL_CONTACT_EMAIL=YourEmail@gmail.com
+      #- HOSTNAME=your.host.name
+      - HTTPS_PORT=443
+      - SSL_KEY_PATH=/app/ssldata/xsshunterexpress.key
+      - SSL_CERT_PATH=/app/ssldata/xsshunterexpress.pem
       # Maximum XSS callback payload size
       # This includes the webpage screenshot, DOM HTML,
       # page text, and other metadata. Note that if the
@@ -42,14 +43,13 @@ services:
       - DATABASE_HOST=postgresdb
       - NODE_ENV=production
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:443"
     volumes:
       # Stores the SSL/TLS certificates and keys
       # in the "ssldata" directory.
       # Your certificates are automatically renewed
       # via LetsEncrypt, no extra work needed!
-      - ./ssldata:/app/greenlock.d
+      - ./ssldata:/app/ssldata
       # Directory where payload fire images are stored.
       - ./payload-fire-images:/app/payload-fire-images
     # Comment out if you're using an external SQL
